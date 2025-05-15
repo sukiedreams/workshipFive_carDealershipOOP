@@ -4,20 +4,19 @@ public class Vehicle {
 
     private int vin;
     private int year;
-    private static String make;
+    private String make;
     private String model;
-    private String type;
+    private String vehicleType;
     private String color;
     private int odometer;
     private double price;
 
-    public Vehicle(int vin, int year, String make, String model, String type, String color, int odometer, double price) {
-
+    public Vehicle(int vin, int year, String make, String model, String vehicleType, String color, int odometer, double price) {
         this.vin = vin;
         this.year = year;
         this.make = make;
         this.model = model;
-        this.type = type;
+        this.vehicleType = vehicleType;
         this.color = color;
         this.odometer = odometer;
         this.price = price;
@@ -39,7 +38,7 @@ public class Vehicle {
         this.year = year;
     }
 
-    public static String getMake() {
+    public String getMake() {
         return make;
     }
 
@@ -55,12 +54,12 @@ public class Vehicle {
         this.model = model;
     }
 
-    public String getType() {
-        return type;
+    public String getVehicleType() {
+        return vehicleType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setVehicleType(String vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public String getColor() {
@@ -89,15 +88,15 @@ public class Vehicle {
 
     @Override
     public String toString() {
-        return "Vehicle{" +
-                "vin=" + vin +
-                ", year=" + year +
-                ", make='" + make + '\'' +
-                ", model='" + model + '\'' +
-                ", type='" + type + '\'' +
-                ", color='" + color + '\'' +
-                ", odometer=" + odometer +
-                ", price=" + price +
-                '}';
+        return String.format("%d,%d,%s,%s,%s,%s,%d,%.2f\n",
+                this.vin,
+                this.year,
+                this.make,
+                this.model,
+                this.vehicleType,
+                this.color,
+                this.odometer,
+                this.price
+        );
     }
 }

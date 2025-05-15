@@ -10,8 +10,8 @@ public class UserInterface {
 
     private void init() {
         //TODO: Load dealership details from a file
-        dealership= DealershipFileManager.getDealership();
-
+        DealershipFileManager dealershipFileManager = new DealershipFileManager();
+        this.dealership = dealershipFileManager.getDealership();
     }
 
     public UserInterface() {
@@ -23,6 +23,7 @@ public class UserInterface {
         //TODO: Create your main menu (do-while)
         System.out.println("---welcome to Sukie's Dealership!---");
         int mainMenuCommand;
+        scanner.nextLine();
 
         do {
 
@@ -94,6 +95,7 @@ public class UserInterface {
         scanner.nextLine();
 
         ArrayList<Vehicle> filteredVehicles = dealership.vehiclesByPrice(min, max);
+
         displayVehicles(filteredVehicles);
 
     }
@@ -113,12 +115,12 @@ public class UserInterface {
         System.out.println("---Display Vehicles by year---");
 
         System.out.println("Enter Year Min: ");
-        int minYear = scanner.nextInt();
+        int min = scanner.nextInt();
         System.out.println("Enter Year Max: ");
-        int maxYear = scanner.nextInt();
+        int max = scanner.nextInt();
         scanner.nextLine();
 
-        ArrayList<Vehicle> filteredVehicles = dealership.vehiclesByYear(minYear, maxYear);
+        ArrayList<Vehicle> filteredVehicles = dealership.vehiclesByYear(min, max);
         displayVehicles(filteredVehicles);
 
     }
@@ -136,12 +138,12 @@ public class UserInterface {
         System.out.println("---Display vehicles by milegae---");
 
         System.out.println("Enter Mileage Min: ");
-        int minMileage = scanner.nextInt();
+        int min = scanner.nextInt();
         System.out.println("Enter Mileage Max: ");
-        int maxMileage = scanner.nextInt();
+        int max = scanner.nextInt();
         scanner.nextLine();
 
-        ArrayList<Vehicle> filteredVehicles = dealership.vehcileMileage(minMileage, maxMileage);
+        ArrayList<Vehicle> filteredVehicles = dealership.vehicleMileage(min, max);
         displayVehicles(filteredVehicles);
     }
     private void processGetByVehicleTypeRequest() {
@@ -157,15 +159,19 @@ public class UserInterface {
     private void processGetAllVehiclesRequest() {
         System.out.println("---Display All Vehicles---");
 
+        ArrayList<Vehicle> all = dealership.getAllVehicles();
+        displayVehicles(all);
+
     }
     private void processAddVehicleRequest() {
         System.out.println("---Add Vehicles");
 
         System.out.println("Enter Vin: ");
-        int vin = Integer.parseInt(scanner.nextLine());
+        int vin = scanner.nextInt();
 
         System.out.println("Enter Year: ");
-        int year = Integer.parseInt(scanner.nextLine());
+        int year = scanner.nextInt();
+        scanner.nextLine();
 
         System.out.println("Enter Make: ");
         String make = scanner.nextLine();
@@ -180,20 +186,35 @@ public class UserInterface {
         String color = scanner.nextLine();
 
         System.out.println("Enter Odometer: ");
-        int odometer = Integer.parseInt(scanner.nextLine());
+        int odometer = scanner.nextInt();
 
         System.out.println("Enter Price: ");
-        double price = Double.parseDouble(scanner.nextLine());
+        double price = scanner.nextDouble();
+        scanner.nextLine();
 
-        Vehicle vehicleToAdd = new Vehicle(vin, year, make, model, type, color, odometer, price);
-        dealership.addVehicle(vehicleToAdd);
-        DealershipFileManager.saveDealership(dealership);
+        Vehicle vehicle = new Vehicle(vin, year, make, model, type, color, odometer, price);
+        dealership.addVehicle(vehicle);
+
+        DealershipFileManager dfm = new DealershipFileManager();
+        dfm.saveDealership(dealership);
 
         System.out.println("Vehicle added successfully!");
 
 
     }
     private void processRemoveVehicleRequest() {
+        System.out.println("---Remove Vehicle---\n");
+
+        System.out.println("Enter VIN of the vehicle to remove: ");
+        int vin = scanner.nextInt();
+        scanner.nextLine();
+
+        dealership.removeVehicle(vin);
+
+        DealershipFileManager dfm = new DealershipFileManager();
+        dfm.saveDealership(dealership);
+
+        System.out.println("Vehicle Removed successfully!");
 
 
     }
