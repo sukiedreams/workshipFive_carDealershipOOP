@@ -22,7 +22,20 @@ public class UserInterface {
 
     public void display() {
         //TODO: Create your main menu (do-while)
-        System.out.println("---welcome to Sukie's Dealership!---");
+        System.out.println("---welcome to Sukie's Dealership!---\n");
+        System.out.println(" " +
+                "              #####                   \n" +
+                "        ########  ######              \n" +
+                "     ### ####  # # ########           \n" +
+                "    ##  ##     # #    ########        \n" +
+                "    ###  ####### #########    ####    \n" +
+                "   ##                          ####   \n" +
+                "   #   ######           ######   ##   \n" +
+                "   ## ########         ########  ##   \n" +
+                "    ##############################    \n" +
+                "       ######           ######        \n");
+        System.out.println("Press Enter to begin.");
+
         int mainMenuCommand;
         scanner.nextLine();
 
@@ -117,17 +130,20 @@ public class UserInterface {
         if (choice == 1) {
             //this is sales
             System.out.println("Do you want to finance? (Yes or No): ");
-            String finance = scanner.nextLine();
             scanner.nextLine();
+
+            String finance = scanner.nextLine();
             boolean wantsFinance = finance.equalsIgnoreCase("Yes");
             contract = new SalesContract(date, customerName, customerEmail, vehicle, wantsFinance);
 
-            System.out.println("Your Total Price: $" + String.format("%.2f", contract.getTotalPrice()));
+
             if (wantsFinance) {
+                System.out.println("Your Total: $" + String.format("%.2f", contract.getTotalPrice()));
                 System.out.println("Your Monthly Payment: $" + String.format("%.2f", contract.getMonthlyPayment()));
             } else {
                 System.out.println("Your Total Price: $" + String.format("%.2f", contract.getTotalPrice()));
             }
+            //lease
         } else if (choice == 2) {
             int vehicleAge = 2025 - vehicle.getYear();
             if (vehicleAge > 3) {
@@ -137,7 +153,7 @@ public class UserInterface {
 
             contract = new LeaseContract(date, customerName, customerEmail, vehicle);
 
-            System.out.println("Total Lease Price: $" + String.format("%.2f", contract.getTotalPrice()));
+            System.out.println("Total Lease: $" + String.format("%.2f", contract.getTotalPrice()));
             System.out.println("Monthly Lease Payment: $" + String.format("%.2f", contract.getMonthlyPayment()));
 
         } else {
@@ -177,11 +193,11 @@ public class UserInterface {
 
     }
     private void processGetByMakeModelRequest() {
-        System.out.println("---Display vehicles make and model---");
+        System.out.println("---Display vehicles by make and model---");
+        scanner.nextLine();
 
         System.out.println("Enter Make: ");
         String make = scanner.nextLine();
-        scanner.nextLine();
 
         System.out.println("Enter Model: ");
         String model = scanner.nextLine();
@@ -205,10 +221,11 @@ public class UserInterface {
     }
     private void processGetByColorRequest() {
         System.out.println("---Display vehicles by color---");
+        scanner.nextLine();
 
         System.out.println("Enter Color: ");
         String color = scanner.nextLine();
-        scanner.nextLine();
+
 
         ArrayList<Vehicle> filteredVehicles = dealership.vehiclesByColor(color);
         displayVehicles(filteredVehicles);

@@ -2,11 +2,19 @@ package com.ps;
 
 public class SalesContract extends Contract {
 
-    private boolean finance;
+    private boolean isFinance;
 
     public SalesContract (String date, String customerName, String customerEmail, Vehicle vehicle, boolean finance) {
         super(date, customerName, customerEmail, vehicle);
-        this.finance = finance;
+        this.isFinance = finance;
+    }
+
+    public boolean isFinance() {
+        return isFinance;
+    }
+
+    public void setFinance(boolean finance) {
+        isFinance = finance;
     }
 
     @Override
@@ -20,12 +28,23 @@ public class SalesContract extends Contract {
 
     @Override
     public double getMonthlyPayment() {
-        if (!finance) return 0.0;
+        if (!isFinance) {
+            return 0.0;
+        }
 
-        double amount = getTotalPrice();
-        int months = getVehicle().getPrice() >= 10000 ? 48 : 24;
-        double rate = getVehicle().getPrice() >= 10000 ? 0.0425 : 0.0525;
+        double totalPrice = getTotalPrice();
+        double interestRate;
+        int months;
 
-        return (amount * (1 + rate)) / months;
+        if (getVehicle().getPrice() >= 10000) {
+            interestRate = 04.25;
+            months = 48;
+        } else {
+            interestRate = 05.25;
+            months = 24;
+        }
+
+        double monthlyRate = interestRate / 12;
+        return (totalPrice + monthlyRate) / (1 - Math.pow(1 + monthlyRate, -months));
     }
 }
