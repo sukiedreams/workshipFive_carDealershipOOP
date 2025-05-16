@@ -12,9 +12,10 @@ public class ContractFileManager {
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("contracts.csv"));
 
             Vehicle vehicle = contract.getVehicle();
-            String base = String.format("%s|%s|%s|%d|%d|%s|%s|%s|%s|%d|%.2f",
+            String base = String.format("%s|%s|%s|%d|%d|%s|%s|%s|%s|%d|%.2f\n",
             contract instanceof SalesContract ? "SALE" : "LEASE",
             contract.getDate(),
+            contract.getCustomerName(),
             vehicle.getVin(),
             vehicle.getYear(),
             vehicle.getMake(),
@@ -34,7 +35,8 @@ public class ContractFileManager {
                 firstLine = base + String.format("|%.2f|%.2f", lc.getTotalPrice(), lc.getMonthlyPayment());
             }
 
-
+            bufferedWriter.write(firstLine);
+            bufferedWriter.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
