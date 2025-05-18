@@ -8,13 +8,15 @@ public class ContractFileManager {
 
     public void saveContract(Contract contract) {
 
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("contracts.csv"))) {
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("contracts.csv", true))) {
             Vehicle vehicle = contract.getVehicle();
 
-            String base = String.format("%s|%s|%s|%d|%d|%s|%s|%s|%s|%d|%.2f\n",
+            String base = String.format("%s|%s|%s|%s|%d|%d|%s|%s|%s|%s|%d|%.2f\n",
             contract instanceof SalesContract ? "SALE" : "LEASE",
             contract.getDate(),
             contract.getCustomerName(),
+            contract.getCustomerEmail(),
             vehicle.getVin(),
             vehicle.getYear(),
             vehicle.getMake(),
@@ -25,18 +27,18 @@ public class ContractFileManager {
             vehicle.getPrice()
             );
 
-            String firstLine;
+            String Line;
             if (contract instanceof SalesContract) {
                 SalesContract sc = (SalesContract) contract;
-                firstLine = base + String.format("|%.2f|%.2f", sc.getTotalPrice(), sc.getMonthlyPayment());
+                Line = base + String.format("|%.2f|%.2f", sc.getTotalPrice(), sc.getMonthlyPayment());
             } else {
                 LeaseContract lc = (LeaseContract) contract;
-                firstLine = base + String.format("|%.2f|%.2f", lc.getTotalPrice(), lc.getMonthlyPayment());
+                Line = base + String.format("|%.2f|%.2f", lc.getTotalPrice(), lc.getMonthlyPayment());
             }
 
-            bufferedWriter.write(firstLine + "\n");
+            bufferedWriter.write(Line + "\n");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error, Please try again.", e);
         }
     }
 }

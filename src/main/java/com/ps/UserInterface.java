@@ -245,10 +245,11 @@ public class UserInterface {
     }
     private void processGetByVehicleTypeRequest() {
         System.out.println("---Display vehicles by type---");
+        scanner.nextLine();
 
         System.out.println("Enter Type (Ex: car, Truck, SUV, etc...): ");
         String type = scanner.nextLine();
-        scanner.nextLine();
+
 
         ArrayList<Vehicle> filteredVehicles = dealership.vehicleByType(type);
         displayVehicles(filteredVehicles);

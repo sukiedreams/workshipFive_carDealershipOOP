@@ -37,14 +37,20 @@ public class SalesContract extends Contract {
         int months;
 
         if (getVehicle().getPrice() >= 10000) {
-            interestRate = 04.25;
+            interestRate = 0.0425;
             months = 48;
         } else {
-            interestRate = 05.25;
+            interestRate = 0.0525;
             months = 24;
         }
 
+        // following the monthly payment formula.
         double monthlyRate = interestRate / 12;
-        return (totalPrice + monthlyRate) / (1 - Math.pow(1 + monthlyRate, -months));
+        double numerator = totalPrice * monthlyRate;
+        double denominator = 1 - Math.pow(1 + monthlyRate, -months);
+        double monthlyPayment = numerator / denominator;
+
+        return  Math.round(monthlyPayment * 100.0) / 100.0;
     }
 }
+
